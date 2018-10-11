@@ -29,12 +29,6 @@ keywords = [
 ]
 pasteCache = set([])
 
-# Makes a single web request to Pastebin and parse its
-# content for relevant text.
-def scrape():
-    print("Scraping ...")
-    return parse("The quick brown fox jumped over the lazy dog.")
-
 # Parses content in search of relevant text and updates the keywords data
 # structure accordingly.
 def parsePaste(pasteUrl):
@@ -58,6 +52,7 @@ def saveResults():
 def fetchHtml(url):
     # response = URL.urlopen(url)
     response = http.request("GET", url)
+
     if response.info().get("Content-Encoding") == "gzip":
         buffer = StringIO(response.read())
         unzipped = gzip.GzipFile(fileobj = buffer)
@@ -68,7 +63,8 @@ def fetchHtml(url):
 # Fetch the URL's of the latest pastes from the front page.
 def getLatestPastes():
     discoveredLinks = []
-    frontPage = fetchHtml(urlRoot)
+    frontPage = bs(fetchHtml(urlRoot), "html.parser")
+    print(fetchHtml(urlRoot))
     rightMenu = frontPage.find("div", {"id": "menu_2"})
     rightMenuList = rightMenu.find("ul", {"class": "right_menu"})
     for item in rightMenuList.findChildren():
