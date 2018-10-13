@@ -43,7 +43,7 @@ KEYWORDS = [
     },
     {
         "category": "US Phone Number",
-        "word": "1[\s./-]?\(?[\d]+\)?[\s./-]?[\d]+[-/.]?[\d]+\s?[\d]+",
+        "word": "(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?",
         "count": 0,
         "sources": [],
     },
@@ -55,7 +55,7 @@ KEYWORDS = [
     },
     {
         "category": "(Google) API Keys",
-        "word": "(api|key).*[A-Za-z0-9]{39}",
+        "word": "(api|key).*[A-Za-z0-9]{39,40}",
         "count": 0,
         "sources": [],
     },
@@ -104,9 +104,8 @@ def fetch_html(url):
     Download the webpage given at the URL, unzip it if necessary, then return it
     as searchable HTML.
     """
-    # response = URL.urlopen(url)
-    # response = http.request("GET", url)
-    request = urllib.request.Request(url, headers = { "User-Agent": USER_AGENT })
+    # Form a request with a user agent that makes us not look like a script.
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     response = urllib.request.urlopen(request)
 
     if response.info().get("Content-Encoding") == "gzip":
@@ -153,7 +152,7 @@ def main():
         save_results()
         print("Exiting ...")
     except urllib.error.HTTPError:
-        print("An HTTP error occurred")
+        print("An HTTP error occurred.")
 
 
 # Kick off the program.
