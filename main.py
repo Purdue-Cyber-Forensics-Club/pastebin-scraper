@@ -148,6 +148,8 @@ def main():
                 time.sleep(10)
             else:
                 time.sleep(5)
+            save_results()
+            print("Saving ...")
     except KeyboardInterrupt:
         save_results()
         print("Exiting ...")
