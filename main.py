@@ -149,7 +149,6 @@ def main():
             else:
                 time.sleep(5)
             save_results()
-            print("Saving ...")
     except KeyboardInterrupt:
         save_results()
         print("Exiting ...")
